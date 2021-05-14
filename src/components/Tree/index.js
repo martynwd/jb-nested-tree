@@ -1,6 +1,11 @@
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setNodes} from "../state/pagesSlice";
+import {
+    setNodes,
+    setSelectedEntity,
+    toggleOpen
+} from "../state/pagesSlice";
+import TreeNode from "../TreeNode";
 
 
 const Tree = ({entityId, entityTitle}) => {
@@ -78,9 +83,22 @@ const Tree = ({entityId, entityTitle}) => {
         }
     }
 
+    const getRootNodes = nodes => nodes.filter(node => node.level === 0);
+
+    const getChildNodes = node => node.pages.map(title => nodes[title]);
+
+    const rootNodes = getRootNodes(Object.values(nodes))
+
 
     return (
-        <div>Tree</div>
+        <ul>
+            {rootNodes.map(node => (
+                <TreeNode
+                    node = {node}
+                    getChildNodes={getChildNodes}
+                />
+            ))}
+        </ul>
     )
 }
 
