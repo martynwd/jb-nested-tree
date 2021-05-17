@@ -1,3 +1,61 @@
-.anchorSelected {
+.selected {
   font-weight: bold;
+}
+.anchor {
+  font-size: 14px;
+  &__title {
+    margin-inline-start: 1rem;
+  }
+}
+
+.anchor:hover {
+  text-decoration: underline;
+}
+.anchors_list {
+  margin-inline-start: 30px;
+}
+.treeNode__item_main{
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s ease;
+  padding: .3rem;
+  margin: .3rem;
+  font-size: 14px;
+}
+
+.treeNode__item_main:hover {
+  text-decoration: underline;
+}
+.treeNode__arrow {
+  transition: transform 0.2s ease;
+  margin-inline-end: 4px;
+  width: 15px;
+}
+.revert {
+  transform: rotate(180deg);
+}
+
+.treeNode__arrow_revert {
+
+}
+.loading {
+  background-color: green;
+}
+
+.level-0 {
+  margin-inline-start: 5px;
+}
+
+.level-1 {
+  margin-inline-start: 25px;
+}
+.level-2 {
+  margin-inline-start: 35px;
+}
+.level-3 {
+  margin-inline-start: 50px;
 }

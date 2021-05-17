@@ -29,9 +29,6 @@ const pagesSlice = createSlice({
 
         toggleOpen(state, action) {
             const node = action.payload;
-/*            if(node.open){
-                console.log('node', node)
-            }*/
             const updatedNode = {...state.nodes[node.id], open: !node.open }
 
             state.nodes = {...state.nodes, [node.id]: updatedNode }
@@ -41,7 +38,6 @@ const pagesSlice = createSlice({
             state.loading = action.payload;
         }
     },
-
 })
 
 export const {

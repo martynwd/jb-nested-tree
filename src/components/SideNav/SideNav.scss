@@ -1,3 +1,6 @@
+ul {
+  padding: 0;
+}
 li {
   list-style-type: none;
 }
@@ -5,4 +8,5 @@ li {
 .sidenav {
   background-color: #fafafa;
   border-right: #e6e6e6 solid 1px;
+  height: calc(100vh - 50px);
 }

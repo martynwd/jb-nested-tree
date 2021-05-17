@@ -1,21 +1,20 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     setNodes,
-    setSelectedEntity,
     setSelectedNodeId,
-    setEntityFromAPi,
-    toggleOpen
+    setEntityFromAPi
 } from "../state/pagesSlice";
-import TreeNode from "../TreeNode";
 import {setSelectedAnchorId} from "../state/anchorsSlice";
+import TreeNode from "../TreeNode";
+
 
 
 const Tree = ({entityId, entityTitle}) => {
     const dispatch = useDispatch();
 
     const nodes = useSelector(state => state.pages.nodes);
-    const anchors = useSelector(state => state.anchors.anchors)
+    const anchors = useSelector(state => state.anchors.anchors);
 
     const recursiveOpen = (nodes, node, level) => {
         if (level === 0) {
@@ -36,7 +35,7 @@ const Tree = ({entityId, entityTitle}) => {
             [parentNode.id]: parentNode
         }
         return recursiveOpen(updatedNodes, parentNode, parentNode.level)
-    }
+    };
 
     const entityFromAPi = useSelector(state => state.pages.entityFromAPi);
 
@@ -60,13 +59,13 @@ const Tree = ({entityId, entityTitle}) => {
                 dispatch(setSelectedAnchorId(entityId))
             }
         }
-    }, [nodes, anchors])
+    }, [nodes, anchors]);
 
     const getRootNodes = nodes => nodes.filter(node => node.level === 0);
 
     const getChildNodes = node => node.pages.map(title => nodes[title]);
 
-    const rootNodes = getRootNodes(Object.values(nodes))
+    const rootNodes = getRootNodes(Object.values(nodes));
 
 
     return (
@@ -79,7 +78,7 @@ const Tree = ({entityId, entityTitle}) => {
                 />
             ))}
         </ul>
-    )
+    );
 }
 
 export default Tree;
