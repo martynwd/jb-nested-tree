@@ -105,5 +105,11 @@ const TreeNode = React.memo(({node, getChildNodes, level = 0}) => {
     )
 })
 
+TreeNode.propTypes = {
+    node: PropTypes.object,
+    key: PropTypes.string,
+    getChildrenNodes: PropTypes.func
+}
+
 
 export default TreeNode;

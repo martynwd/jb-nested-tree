@@ -1,4 +1,5 @@
 import {useEffect} from "react";
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from "react-redux";
 import {
     setNodes,
@@ -79,6 +80,10 @@ const Tree = ({entityId, entityTitle}) => {
             ))}
         </ul>
     );
+}
+
+Tree.propTypes = {
+    entityId: PropTypes.string
 }
 
 export default Tree;
