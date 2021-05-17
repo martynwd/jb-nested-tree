@@ -1,11 +1,14 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     setNodes,
     setSelectedEntity,
+    setSelectedNodeId,
+    setEntityFromAPi,
     toggleOpen
 } from "../state/pagesSlice";
 import TreeNode from "../TreeNode";
+import {setSelectedAnchorId} from "../state/anchorsSlice";
 
 
 const Tree = ({entityId, entityTitle}) => {
@@ -22,66 +25,42 @@ const Tree = ({entityId, entityTitle}) => {
             ...nodes[node.parentId],
             open: true
         }
+        const currentNode = {
+            ...nodes[node.id],
+            open: true
+        }
+        console.log('parentNODE' ,parentNode)
         const updatedNodes = {
             ...nodes,
+            [node.id]: currentNode,
             [parentNode.id]: parentNode
         }
         return recursiveOpen(updatedNodes, parentNode, parentNode.level)
     }
 
-    const [selectedNodeId, setSelectedNodeId] = useState('')
-    const [selectedAnchorId, setSelectedAnchorId] = useState('');
-    const [currEntityId, setCurrEntityId] = useState('');
-    const [currEntityTitle, setCurrEntityTitle] = useState('');
+    const entityFromAPi = useSelector(state => state.pages.entityFromAPi);
 
-    if (entityId && entityId !== currEntityId) {
-        const selectedNode = nodes[entityId];
-        if (selectedNode) {
-            setSelectedNodeId(entityId);
-            setCurrEntityId(entityId);
-            dispatch(setNodes(recursiveOpen(nodes, selectedNode, selectedNode.level)));
-            return;
-        }
-        const selectedAnchor = anchors[entityId];
-        if (selectedAnchor) {
-            const parentAnchorId = selectedAnchor.id;
-            dispatch(setNodes(recursiveOpen(nodes, nodes[parentAnchorId], nodes[parentAnchorId].level)));
-            setSelectedNodeId(parentAnchorId);
-            setCurrEntityId(entityId);
-        }
-    }
 
-    if (entityTitle && entityTitle !== currEntityTitle) {
-        const arrNodes = Object.entries(nodes);
-        const arrAnchors = Object.entries(anchors);
-
-        if (arrNodes.length > 0) {
-            const selectedObj = arrNodes.find(
-                node => node[1].title === entityTitle
-            );
-
-            if (selectedObj) {
-                const [id, selectedNode] = selectedObj;
+    useEffect(()=> {
+        if (entityId && entityId !== entityFromAPi) {
+            const selectedNode = nodes[entityId];
+            if (selectedNode) {
+                dispatch(setEntityFromAPi(entityId))
                 dispatch(setNodes(recursiveOpen(nodes, selectedNode, selectedNode.level)));
-                setSelectedNodeId(id);
-                setCurrEntityTitle(entityTitle);
+                dispatch(setSelectedNodeId(entityId))
+                return;
+            }
+            const selectedAnchor = anchors[entityId];
+            console.log('ew', entityId, selectedAnchor)
+            if (selectedAnchor) {
+                const parentAnchorId = selectedAnchor.parentId;
+                console.log('first launch', nodes[parentAnchorId])
+                dispatch(setNodes(recursiveOpen(nodes, nodes[parentAnchorId], nodes[parentAnchorId].level)));
+                dispatch(setEntityFromAPi(entityId))
+                dispatch(setSelectedAnchorId(entityId))
             }
         }
-
-        if (arrAnchors.length > 0) {
-            const selectedObj = arrNodes.find(
-                anchor => anchor[1].title === entityTitle
-            );
-
-            if (selectedObj) {
-                const [id, selectedAnchor] = selectedObj;
-                dispatch(setNodes(recursiveOpen(nodes, nodes[selectedAnchor.parentId], nodes[selectedAnchor.parentId].level)));
-                setSelectedNodeId(selectedAnchor.parentId)
-                setSelectedAnchorId(id);
-                setCurrEntityTitle(entityTitle);
-            }
-        }
-    }
+    }, [nodes, anchors])
 
     const getRootNodes = nodes => nodes.filter(node => node.level === 0);
 
@@ -94,6 +73,7 @@ const Tree = ({entityId, entityTitle}) => {
         <ul>
             {rootNodes.map(node => (
                 <TreeNode
+                    key = {node.id}
                     node = {node}
                     getChildNodes={getChildNodes}
                 />

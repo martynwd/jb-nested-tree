@@ -1,0 +1,19 @@
+.App {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 50px 1fr;
+  grid-template-areas: 'header header'
+                       'sideNav content';
+}
+
+Header {
+  grid-area: header;
+}
+
+SideNav {
+  grid-area: sideNav;
+}
+
+Content {
+  grid-area: content;
+}

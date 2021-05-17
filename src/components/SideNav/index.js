@@ -2,23 +2,18 @@ import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import axios from "axios";
 
-import {setNodes} from "../state/pagesSlice";
+import {setNodes, setLoading} from "../state/pagesSlice";
 import {setAnchors} from "../state/anchorsSlice";
 import Tree from "../Tree";
+import './SideNav.scss'
 const http = axios.create();
 
 const SideNav = () => {
     const dispatch = useDispatch();
 
-    const pages = useSelector(state => state.pages.nodes);
-    const anchors = useSelector(state => state.anchors.anchors);
-    const [selectedEntity, setSelectedEntity] = useState(null);
-    const [loading, setLoading] = useState(false);
-
-
 
     const fetchItems = async () => {
-        setLoading(true);
+        dispatch(setLoading(true))
         try {
             const data = await http.get('/help/idea/2018.3/HelpTOC.json');
             dispatch(setNodes(data.data.entities.pages));
@@ -27,9 +22,7 @@ const SideNav = () => {
         } catch (e) {
             console.error(e);
         } finally {
-            console.log('pages', pages);
-            console.log('anchors', anchors);
-            setLoading(false)
+            dispatch(setLoading(false))
         }
 
     }
@@ -40,12 +33,10 @@ const SideNav = () => {
 
 
     return (
-        <div>
-            SideNav
-            Пользователь <b>{loading ? 'сейчас' : 'не'}</b> на сайте.
+        <div className="sidenav">
             <Tree
-                entityId={""}
-                entityTitle={""}
+                //It's some id from API for immediately open a specific menu item
+                entityId={""} // touroftheUI
             />
         </div>
 

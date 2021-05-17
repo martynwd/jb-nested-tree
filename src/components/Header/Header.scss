@@ -1,0 +1,11 @@
+.header {
+  background-color: black;
+  padding-inline-start: 1rem;
+  &__title {
+    font-size: 20px;
+    color: #FFF;
+    &_focus {
+      color: #567fb6;
+    }
+  }
+}

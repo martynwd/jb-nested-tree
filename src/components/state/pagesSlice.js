@@ -5,7 +5,9 @@ const pagesSlice = createSlice({
     initialState: {
         nodes: {},
         selectedNodeId: '',
-        selectedEntity: null
+        selectedEntity: null,
+        entityFromAPi: '',
+        loading: false
     },
 
     reducers: {
@@ -14,25 +16,41 @@ const pagesSlice = createSlice({
         },
 
         setSelectedEntity(state, action) {
-            console.log(action)
             state.selectedEntity = action.payload;
         },
 
         setSelectedNodeId(state, action) {
-            console.log('acr', action)
             state.selectedNodeId = action.payload;
+        },
+
+        setEntityFromAPi(state, action) {
+            state.entityFromAPi = action.payload;
         },
 
         toggleOpen(state, action) {
             const node = action.payload;
+/*            if(node.open){
+                console.log('node', node)
+            }*/
             const updatedNode = {...state.nodes[node.id], open: !node.open }
+
             state.nodes = {...state.nodes, [node.id]: updatedNode }
-            console.log('curstate', updatedNode)
+        },
+
+        setLoading(state, action) {
+            state.loading = action.payload;
         }
     },
 
 })
 
-export const {setNodes, setSelectedEntity, setSelectedNodeId, toggleOpen} = pagesSlice.actions
+export const {
+    setNodes,
+    setSelectedEntity,
+    setSelectedNodeId,
+    setEntityFromAPi,
+    setLoading,
+    toggleOpen
+} = pagesSlice.actions
 
 export default pagesSlice.reducer

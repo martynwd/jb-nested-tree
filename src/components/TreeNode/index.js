@@ -6,34 +6,31 @@ import {toggleOpen, setSelectedEntity, setSelectedNodeId} from "../state/pagesSl
 
 import {useDispatch, useSelector} from "react-redux";
 import {setSelectedAnchorId} from "../state/anchorsSlice";
+import './TreeNode.scss'
+
 
 const TreeNode = React.memo(({node, getChildNodes, level = 0}) => {
     const dispatch = useDispatch();
 
-    const nodes = useSelector(state => state.pages.nodes);
     const selectedEntity = useSelector(state => state.pages.selectedEntity)
     const selectedNodeId = useSelector(state => state.pages.selectedNodeId)
+    const loading = useSelector(state => state.pages.loading)
     const anchors = useSelector(state => state.anchors.anchors)
     const selectedAnchorId = useSelector(state => state.anchors.selectedAnchorId);
     const [isSelected, setSelected] = useState(false);
 
-/*    useEffect(() => {
-        if (selectedEntity && selectedEntity.id === selectedNodeId) {
+
+
+    useEffect(() => {
+        if (selectedEntity && selectedEntity.id === node.id) {
             setSelected(true);
         }
-        console.log(isSelected)
-    })*/
+    }, [selectedEntity, node.id])
 
-    const handleClick = event => {
-        console.log('kek', node)
-        event.preventDefault();
-
-    }
 
     const handleNodeClick = event => {
 
         event.preventDefault();
-        console.log('kek2', node);
         dispatch(setSelectedEntity(node))
         dispatch(setSelectedNodeId(node.id))
         dispatch(toggleOpen(node))
@@ -50,7 +47,7 @@ const TreeNode = React.memo(({node, getChildNodes, level = 0}) => {
             nodeAnchors.length > 0 && (
                 <ul>
                     {
-                        nodeAnchors.map(anchor =>{
+                        nodeAnchors.map(anchor => {
                             const currentAnchor = anchors[anchor]
                             return (
                                 <li
@@ -71,7 +68,7 @@ const TreeNode = React.memo(({node, getChildNodes, level = 0}) => {
 
     const renderChildren = () =>{
         const childrenNodeArr = getChildNodes(node);
-        console.log('ca', childrenNodeArr)
+        console.log('childrenarr', childrenNodeArr)
         return (
             childrenNodeArr.length > 0 && (
                 <ul>
@@ -95,14 +92,15 @@ const TreeNode = React.memo(({node, getChildNodes, level = 0}) => {
                 <div>
                 <span
                     role="link"
+                    className={selectedNodeId === node.id && node.open ? 'anchorSelected' : ''}
                     onClick={handleNodeClick}
                 >
                     {node.title}
                 </span>
-                    {isSelected && renderAnchors(node.anchors)}
+                    {!loading && node.open && renderAnchors(node.anchors)}
                 </div>
             </li>
-            {node.pages && node.open && renderChildren()}
+            {node.pages && node.open &&  renderChildren()}
         </React.Fragment>
 
     )
