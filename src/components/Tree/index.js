@@ -5,8 +5,8 @@ import {
     setNodes,
     setSelectedNodeId,
     setEntityFromAPi
-} from "../state/pagesSlice";
-import {setSelectedAnchorId} from "../state/anchorsSlice";
+} from "../../state/pagesSlice";
+import {setSelectedAnchorId} from "../../state/anchorsSlice";
 import TreeNode from "../TreeNode";
 
 

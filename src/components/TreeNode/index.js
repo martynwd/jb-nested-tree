@@ -2,8 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from "react-redux";
 
-import {toggleOpen, setSelectedEntity, setSelectedNodeId} from "../state/pagesSlice";
-import {setSelectedAnchorId} from "../state/anchorsSlice";
+import {
+    toggleOpen,
+    setSelectedEntity,
+    setSelectedNodeId
+} from "../../state/pagesSlice";
+import {setSelectedAnchorId} from "../../state/anchorsSlice";
 import {ReactComponent as Arrow} from './arrow.svg';
 
 import './TreeNode.scss';

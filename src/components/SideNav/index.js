@@ -2,8 +2,8 @@ import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import axios from "axios";
 
-import {setNodes, setLoading} from "../state/pagesSlice";
-import {setAnchors} from "../state/anchorsSlice";
+import {setNodes, setLoading} from "../../state/pagesSlice";
+import {setAnchors} from "../../state/anchorsSlice";
 import Tree from "../Tree";
 import './SideNav.scss';
 
