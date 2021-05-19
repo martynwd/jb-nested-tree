@@ -11,30 +11,34 @@ import TreeNode from "../TreeNode";
 
 
 
-const Tree = ({entityId, entityTitle}) => {
+const Tree = ({entityId}) => {
     const dispatch = useDispatch();
 
     const nodes = useSelector(state => state.pages.nodes);
     const anchors = useSelector(state => state.anchors.anchors);
 
     const recursiveOpen = (nodes, node, level) => {
+
         if (level === 0) {
             return nodes;
         }
+
         const parentNode = {
             ...nodes[node.parentId],
             open: true
         }
+
         const currentNode = {
             ...nodes[node.id],
             open: true
         }
-        console.log('parentNODE' ,parentNode)
+
         const updatedNodes = {
             ...nodes,
             [node.id]: currentNode,
             [parentNode.id]: parentNode
         }
+
         return recursiveOpen(updatedNodes, parentNode, parentNode.level)
     };
 
